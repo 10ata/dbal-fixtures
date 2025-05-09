@@ -1,5 +1,5 @@
 {
-    "name": "comphppuebla/dbal-fixtures",
+    "name": "10ata/dbal-fixtures",
     "description": "Fixtures management with Doctrine DBAL",
     "license": "MIT",
     "authors": [
@@ -7,24 +7,34 @@
             "name": "Luis Montealegre",
             "email": "montealegreluis@gmail.com",
             "role": "developer"
+        },
+        {
+            "name": "Stoyan Rachev",
+            "email": "stoyan.rachev.4@gmail.com",
+            "role": "developer"
         }
     ],
     "require": {
-        "php": ">=7.1",
+        "php": ">=8.2",
         "doctrine/dbal": "^2.5 | ^3.3",
-        "symfony/console": "^4.0 | ^5.0 | ^6.0",
-        "symfony/yaml": "^4.0 | ^5.0 | ^6.0",
+        "symfony/console": "^4.0 | ^5.0 | ^6.0 | ^7.0",
+        "symfony/yaml": "^4.0 | ^5.0 | ^6.0 | ^7.0",
         "fakerphp/faker": "^1.12"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "^9.6.9",
+        "phpspec/prophecy": "^1.18"
     },
     "config": {
-        "bin-dir": "bin"
+        "platform": {
+            "php": "8.2"
+        },
+        "sort-packages": true,
+        "optimize-autoloader": true
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.1.x-dev"
+            "dev-master": "4.4.x-dev"
         }
     },
     "autoload": {
@@ -42,11 +52,7 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "chmod u+x bin/cli"
-        ],
-        "post-update-cmd": [
-            "chmod u+x bin/cli"
-        ]
+        "test": "./vendor/bin/phpunit",
+        "test-with-stop": "./vendor/bin/phpunit --stop-on-failure --stop-on-error"
     }
 }

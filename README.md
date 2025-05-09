@@ -14,7 +14,7 @@ generation of fake data.
 Install this package using composer
 
 ```bash
-$ composer require comphppuebla/dbal-fixtures
+$ composer require 10ata/dbal-fixtures
 ```
 
 ## Documentation

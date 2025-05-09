@@ -10,3 +10,6 @@ phpunit.xml
 
 # Docs
 /.couscous
+
+# Phpstorm
+/.idea

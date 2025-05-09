@@ -6,16 +6,18 @@
  */
  namespace ComPHPPuebla\Fixtures\Database;
 
+use DateTime;
+
 class Row
 {
     /** @var string */
-    private $primaryKeyColumn;
+    private string $primaryKeyColumn;
 
     /** @var string */
-    private $identifier;
+    private string $identifier;
 
     /** @var array $values */
-    private $values;
+    private array $values;
 
     public function __construct(string $primaryKeyColumn, string $identifier, array $values)
     {
@@ -39,7 +41,7 @@ class Row
     /**
      * @return mixed Most common types are: int (auto_increment) and string (uuid)
      */
-    public function id()
+    public function id(): mixed
     {
         return $this->values[$this->primaryKeyColumn];
     }
@@ -54,13 +56,26 @@ class Row
         return $this->identifier;
     }
 
+    public function processDynamicDatesIfNeeded($value)
+    {
+        if (str_contains($value, 'FIXTURE_DATE_NOW')) {
+            $intervalSpec = str_replace('FIXTURE_DATE_NOW', '', $value);
+            $date = new DateTime();
+            $date->modify(trim($intervalSpec));
+            $value = $date->format('Y-m-d H:i:s');
+        }
+
+        return $value;
+    }
+
     public function changeColumnValue(string $column, $value): void
     {
+        $value = $this->processDynamicDatesIfNeeded($value);
         $this->values[$column] = $value;
     }
 
     /**
-     * It will return `null` if the column does not exists
+     * It will return `null` if the column does not exist
      */
     public function valueOf($column)
     {
@@ -76,7 +91,7 @@ class Row
     {
         $placeholders = [];
         foreach ($this->values as $column => $value) {
-            if (is_array($value) || is_numeric($value) || trim($value, '`') === $value) {
+            if (is_array($value) || is_numeric($value) || trim($value ?? '', '`') === $value) {
                 $placeholders[$column] = '?';
             } else {
                 $placeholders[$column] = $value === null ? 'null' : trim($value, '`');
